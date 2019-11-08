@@ -296,13 +296,13 @@
     <property name="geometry">
      <rect>
       <x>1320</x>
-      <y>820</y>
+      <y>830</y>
       <width>261</width>
       <height>51</height>
      </rect>
     </property>
     <property name="title">
-     <string>Sensitivity</string>
+     <string>YOLO Sensitivity</string>
     </property>
     <widget class="QSlider" name="slider_sensitivity">
      <property name="geometry">
@@ -343,7 +343,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Mark Objects</string>
+     <string>YOLO Objects</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox_drawGrid">
@@ -356,7 +356,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Draw Grid</string>
+     <string>Grid</string>
     </property>
    </widget>
    <widget class="QCheckBox" name="checkBox_drawStaticObjects">
@@ -369,7 +369,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Mark Static Objects</string>
+     <string>Static Objects</string>
     </property>
    </widget>
   </widget>

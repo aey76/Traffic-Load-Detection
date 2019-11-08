@@ -258,8 +258,8 @@ def drawMainWindow():
     threads.append(threading.Thread(target=processThread, args=(ui, yolo, 2), daemon=True))
 
     threads[0].start()
-    # threads[1].start()
-    # threads[2].start()
+    threads[1].start()
+    threads[2].start()
 
     retCode = app.exec_()
     sys.exit(retCode)

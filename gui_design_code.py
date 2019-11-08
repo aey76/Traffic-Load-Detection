@@ -97,7 +97,7 @@ class Ui_MainWindow(object):
         self.mdi_mainView.setBackground(brush)
         self.mdi_mainView.setObjectName("mdi_mainView")
         self.groupBox = QtWidgets.QGroupBox(self.centralwidget)
-        self.groupBox.setGeometry(QtCore.QRect(1320, 820, 261, 51))
+        self.groupBox.setGeometry(QtCore.QRect(1320, 830, 261, 51))
         self.groupBox.setObjectName("groupBox")
         self.slider_sensitivity = QtWidgets.QSlider(self.groupBox)
         self.slider_sensitivity.setGeometry(QtCore.QRect(10, 20, 241, 22))
@@ -141,10 +141,10 @@ class Ui_MainWindow(object):
         self.lbl_sideView_1.setText(_translate("MainWindow", "TextLabel"))
         self.lbl_sideView_2.setToolTip(_translate("MainWindow", "Side View 3"))
         self.lbl_sideView_2.setText(_translate("MainWindow", "TextLabel"))
-        self.groupBox.setTitle(_translate("MainWindow", "Sensitivity"))
-        self.checkBox_drawBoxes.setText(_translate("MainWindow", "Mark Objects"))
-        self.checkBox_drawGrid.setText(_translate("MainWindow", "Draw Grid"))
-        self.checkBox_drawStaticObjects.setText(_translate("MainWindow", "Mark Static Objects"))
+        self.groupBox.setTitle(_translate("MainWindow", "YOLO Sensitivity"))
+        self.checkBox_drawBoxes.setText(_translate("MainWindow", "YOLO Objects"))
+        self.checkBox_drawGrid.setText(_translate("MainWindow", "Grid"))
+        self.checkBox_drawStaticObjects.setText(_translate("MainWindow", "Static Objects"))
 
 
 if __name__ == "__main__":
