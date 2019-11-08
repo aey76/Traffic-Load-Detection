@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1605</width>
+    <height>1059</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonFollowStyle</enum>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QPushButton" name="btn_Main">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>111</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Main</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="btn_Info">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>30</y>
+      <width>111</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Info</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_mainView">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>120</y>
+      <width>1271</width>
+      <height>651</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="midLineWidth">
+     <number>1</number>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_sideView_0">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>120</y>
+      <width>261</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Side View 1</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="midLineWidth">
+     <number>1</number>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_sideView_1">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>340</y>
+      <width>261</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Side View 2</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="midLineWidth">
+     <number>1</number>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lbl_sideView_2">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>560</y>
+      <width>261</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="cursor">
+     <cursorShape>PointingHandCursor</cursorShape>
+    </property>
+    <property name="toolTip">
+     <string>Side View 3</string>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Sunken</enum>
+    </property>
+    <property name="midLineWidth">
+     <number>1</number>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+    <property name="scaledContents">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QTextBrowser" name="txt_Log">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>800</y>
+      <width>1271</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="cursor" stdset="0">
+     <cursorShape>IBeamCursor</cursorShape>
+    </property>
+   </widget>
+   <widget class="QMdiArea" name="mdi_sideView_0">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>320</y>
+      <width>260</width>
+      <height>8</height>
+     </rect>
+    </property>
+    <property name="toolTip">
+     <string notr="true"/>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="background">
+     <brush brushstyle="SolidPattern">
+      <color alpha="200">
+       <red>0</red>
+       <green>200</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+   </widget>
+   <widget class="QMdiArea" name="mdi_sideView_1">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>540</y>
+      <width>260</width>
+      <height>8</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="background">
+     <brush brushstyle="SolidPattern">
+      <color alpha="200">
+       <red>0</red>
+       <green>200</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+   </widget>
+   <widget class="QMdiArea" name="mdi_sideView_2">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>770</y>
+      <width>260</width>
+      <height>8</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="background">
+     <brush brushstyle="SolidPattern">
+      <color alpha="200">
+       <red>0</red>
+       <green>200</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+   </widget>
+   <widget class="QMdiArea" name="mdi_mainView">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>770</y>
+      <width>1270</width>
+      <height>8</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+    <property name="frameShadow">
+     <enum>QFrame::Plain</enum>
+    </property>
+    <property name="lineWidth">
+     <number>0</number>
+    </property>
+    <property name="background">
+     <brush brushstyle="SolidPattern">
+      <color alpha="200">
+       <red>0</red>
+       <green>200</green>
+       <blue>0</blue>
+      </color>
+     </brush>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="groupBox">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>820</y>
+      <width>261</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Sensitivity</string>
+    </property>
+    <widget class="QSlider" name="slider_sensitivity">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>241</width>
+       <height>22</height>
+      </rect>
+     </property>
+     <property name="maximum">
+      <number>19</number>
+     </property>
+     <property name="pageStep">
+      <number>1</number>
+     </property>
+     <property name="value">
+      <number>4</number>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="tickPosition">
+      <enum>QSlider::TicksBelow</enum>
+     </property>
+     <property name="tickInterval">
+      <number>1</number>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_drawBoxes">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>800</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mark Objects</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_drawGrid">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>890</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Draw Grid</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_drawStaticObjects">
+    <property name="geometry">
+     <rect>
+      <x>1320</x>
+      <y>910</y>
+      <width>261</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Mark Static Objects</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1605</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+ <designerdata>
+  <property name="gridDeltaX">
+   <number>10</number>
+  </property>
+  <property name="gridDeltaY">
+   <number>10</number>
+  </property>
+  <property name="gridSnapX">
+   <bool>true</bool>
+  </property>
+  <property name="gridSnapY">
+   <bool>true</bool>
+  </property>
+  <property name="gridVisible">
+   <bool>true</bool>
+  </property>
+ </designerdata>
+</ui>
