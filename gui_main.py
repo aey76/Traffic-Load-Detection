@@ -2,7 +2,7 @@
 # File: gui_main.py
 #
 ###################################################################################################
-import sys, time, datetime, threading, logging
+import os, sys, time, datetime, threading, logging
 import gui_design_code as GUI
 import camera_reader as CR
 import yolo_server as YS
@@ -135,21 +135,21 @@ class CarsLoad():
 # * __init__: init super class and init members
 ###################################################################################################
     def __init__(self):
-        self.loadMatrix = [0] * (32 * 18)
+        self.loadMatrix = [0] * (64 * 36)
 ###################################################################################################
 
 ###################################################################################################
 # * clear: clear loadArray
 ###################################################################################################
     def clear(self):
-        self.loadMatrix = [0] * (32 * 18)
+        self.loadMatrix = [0] * (64 * 36)
 ###################################################################################################
 
 ###################################################################################################
 # * processDetectionList: Process detection list
 ###################################################################################################
     def processDetectionList(self, detectionList):
-        newLoadMatrix = [0] * (32 * 18)
+        newLoadMatrix = [0] * (64 * 36)
 
         i = 0
         while i < len(detectionList):
@@ -160,20 +160,16 @@ class CarsLoad():
             x1 = min(1279, x1)
             y1 = min(719, y1)
             x2 = min(1279, x2)
-            x2 = min(719, y2)
+            y2 = min(719, y2)
 
-            x1 = int(x1 / 40)
-            y1 = int(y1 / 40)
-            x2 = int(x2 / 40)
-            y2 = int(y2 / 40)
+            x1 = int(x1 / 20)
+            y1 = int(y1 / 20)
+            x2 = int(x2 / 20)
+            y2 = int(y2 / 20)
 
-            y = y1
-            while y <= y2:
-                x = x1
-                while x <= x2:
-                    newLoadMatrix[y * 32 + x] = self.loadMatrix[y * 32 + x] + 1
-                    x += 1
-                y += 1
+            for y in range(y1, y2+1):
+                for x in range(x1, x2+1):
+                    newLoadMatrix[y * 64 + x] = self.loadMatrix[y * 64 + x] + 1
 
             i += 2
 
@@ -186,23 +182,23 @@ class CarsLoad():
     def drawTrafficLoad(self, img0, drawStaticObjects, drawGrid):
 
         # Draw a grid lines
-        if drawGrid:
-            for y in range(0, 719, 40):
+        if drawGrid is True:
+            for y in range(0, 720, 20):
                 img0 = cv2.line(img0, (0,y), (1280,y), (100,100,100), 1)
 
-            for x in range (0, 1279, 40):
+            for x in range (0, 1280, 20):
                 img0 = cv2.line(img0, (x,0), (x,720), (100,100,100), 1)
 
-        if drawStaticObjects:
+        if drawStaticObjects is True:
             i = 0
             while i < len(self.loadMatrix):
                 if self.loadMatrix[i] > 2:
                     v = self.loadMatrix[i]
-                    c1 = divmod(i, 32)
-                    c1 = (c1[1] * 40, c1[0] * 40)
-                    c2 = (c1[0] + 39, c1[1] + 39)
+                    c1 = divmod(i, 64)
+                    c1 = (c1[1] * 20, c1[0] * 20)
+                    c2 = (c1[0] + 19, c1[1] + 19)
                     r = min (255, v * 15)
-                    cv2.rectangle(img0, c1, c2, [0, 0, r], thickness=v)
+                    cv2.rectangle(img0, c1, c2, [0, 0, r], thickness=3)
                 i += 1
 ###################################################################################################
 
@@ -217,9 +213,12 @@ def processThread(ui, yolo, camIndex):
             "https://5c328052cb7f5.streamlock.net/live/AHISEMECH.stream/playlist.m3u8",
             "https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8"]    # 25Hz
             # https://5c328052cb7f5.streamlock.net/live/YAARHEDERA.stream/playlist.m3u8 25Hz
-    imagesPath = "D:/YOLO/gui/images/url_" + str(camIndex)
-    cam = CR.CamReader(urls[camIndex], 25, imagesPath)
-    # cam = CR.CamReader(urls[camIndex], 25)
+
+    # trim the file name from __file__ (__file__ is the full path of the file with the file name)
+    mainPyPath = __file__[0 : -len(os.path.basename(__file__))]
+    imagesPath = mainPyPath + "images/url_" + str(camIndex)
+    # cam = CR.CamReader(urls[camIndex], 25, imagesPath)
+    cam = CR.CamReader(urls[camIndex], 25)
     # cam = CR.DirReader(imagesPath, 25)
     carsLoad = CarsLoad()
     
