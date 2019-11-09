@@ -2,7 +2,7 @@
 # File: camera_reader.py
 #
 ###################################################################################################
-import sys, threading, logging
+import time, sys, threading, logging
 
 sys.path.append('./yolo3_v6')
 
@@ -125,6 +125,8 @@ class DirReader:
             self.imagesCount = 0
             imageName = "image_" + str(self.imagesCount) + ".png"
             imgToShow = cv2.imread(self.imagesPath + "/" + imageName,)
+            if imgToShow is None:
+                return None, None
 
         self.imagesCount += self.cameraRate
 

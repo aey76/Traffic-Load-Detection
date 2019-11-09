@@ -126,30 +126,40 @@ def sleepToRoundUs(roundUs, offsetUs):
 ###################################################################################################
 
 ###################################################################################################
-# * CarsLoad
+# * TrafficLoad
 #
 ###################################################################################################
-class CarsLoad():
+class TrafficLoad():
 
 ###################################################################################################
 # * __init__: init super class and init members
 ###################################################################################################
     def __init__(self):
-        self.loadMatrix = [0] * (64 * 36)
+        self.loadMatrix = []
+        self.img0WidthPixels = 0
+        self.img0HeightPixels = 0
+        self.img0WidthBoxes = 0
+        self.img0HeightBoxes = 0
 ###################################################################################################
 
 ###################################################################################################
-# * clear: clear loadArray
+# * setImageDimensions:
 ###################################################################################################
-    def clear(self):
-        self.loadMatrix = [0] * (64 * 36)
+    def setImageDimensions(self, imgShape):
+        self.img0WidthPixels = imgShape[1]
+        self.img0HeightPixels = imgShape[0]
+        self.img0WidthBoxes = int(self.img0WidthPixels / 20)
+        self.img0HeightBoxes = int(self.img0HeightPixels / 20)
+
+        if len(self.loadMatrix) == 0:
+            self.loadMatrix = [0] * (self.img0WidthBoxes * self.img0HeightBoxes)
 ###################################################################################################
 
 ###################################################################################################
 # * processDetectionList: Process detection list
 ###################################################################################################
     def processDetectionList(self, detectionList):
-        newLoadMatrix = [0] * (64 * 36)
+        newLoadMatrix = [0] * (self.img0WidthBoxes * self.img0HeightBoxes)
 
         i = 0
         while i < len(detectionList):
@@ -157,10 +167,10 @@ class CarsLoad():
             x2, y2 = detectionList[i + 1]
 
             # handle detections on the edge of the image
-            x1 = min(1279, x1)
-            y1 = min(719, y1)
-            x2 = min(1279, x2)
-            y2 = min(719, y2)
+            x1 = min(self.img0WidthPixels - 1, x1)
+            y1 = min(self.img0HeightPixels - 1, y1)
+            x2 = min(self.img0WidthPixels - 1, x2)
+            y2 = min(self.img0HeightPixels - 1, y2)
 
             x1 = int(x1 / 20)
             y1 = int(y1 / 20)
@@ -169,7 +179,7 @@ class CarsLoad():
 
             for y in range(y1, y2+1):
                 for x in range(x1, x2+1):
-                    newLoadMatrix[y * 64 + x] = self.loadMatrix[y * 64 + x] + 1
+                    newLoadMatrix[y * self.img0WidthBoxes + x] = self.loadMatrix[y * self.img0WidthBoxes + x] + 1
 
             i += 2
 
@@ -177,29 +187,30 @@ class CarsLoad():
 ###################################################################################################
 
 ###################################################################################################
+# * drawTrafficGrid: Draw a grid lines
+###################################################################################################
+    def drawTrafficGrid(self, img0):
+        for y in range(0, self.img0HeightPixels, 20):
+            img0 = cv2.line(img0, (0, y), (self.img0WidthPixels, y), (100,100,100), 1)
+
+        for x in range (0, self.img0WidthPixels, 20):
+            img0 = cv2.line(img0, (x, 0), (x, self.img0HeightPixels), (100,100,100), 1)
+###################################################################################################
+
+###################################################################################################
 # * drawTrafficLoad: Process detection list
 ###################################################################################################
-    def drawTrafficLoad(self, img0, drawStaticObjects, drawGrid):
-
-        # Draw a grid lines
-        if drawGrid is True:
-            for y in range(0, 720, 20):
-                img0 = cv2.line(img0, (0,y), (1280,y), (100,100,100), 1)
-
-            for x in range (0, 1280, 20):
-                img0 = cv2.line(img0, (x,0), (x,720), (100,100,100), 1)
-
-        if drawStaticObjects is True:
-            i = 0
-            while i < len(self.loadMatrix):
-                if self.loadMatrix[i] > 2:
-                    v = self.loadMatrix[i]
-                    c1 = divmod(i, 64)
-                    c1 = (c1[1] * 20, c1[0] * 20)
-                    c2 = (c1[0] + 19, c1[1] + 19)
-                    r = min (255, v * 15)
-                    cv2.rectangle(img0, c1, c2, [0, 0, r], thickness=3)
-                i += 1
+    def drawTrafficLoad(self, img0):
+        i = 0
+        while i < len(self.loadMatrix):
+            if self.loadMatrix[i] > 2:
+                v = self.loadMatrix[i]
+                c1 = divmod(i, self.img0WidthBoxes)
+                c1 = (c1[1] * 20, c1[0] * 20)
+                c2 = (c1[0] + 19, c1[1] + 19)
+                r = min (255, v * 15)
+                cv2.rectangle(img0, c1, c2, [0, 0, r], thickness=3)
+            i += 1
 ###################################################################################################
 
 ###################################################################################################
@@ -220,17 +231,25 @@ def processThread(ui, yolo, camIndex):
     # cam = CR.CamReader(urls[camIndex], 25, imagesPath)
     cam = CR.CamReader(urls[camIndex], 25)
     # cam = CR.DirReader(imagesPath, 25)
-    carsLoad = CarsLoad()
+    trafficLoad = TrafficLoad()
     
-
     while True:
         sleepToRoundUs(1000000, 100000 * camIndex)
         imgToProcess, imgToShow = cam.nextFrame()
         # ui.log("CamReader buffer len " + str(cam.getImagesCount()))
         if imgToProcess is not None:
             img0, detectionList = yolo.detect(imgToProcess, imgToShow, ui.checkBox_drawBoxes.isChecked())
-            carsLoad.processDetectionList(detectionList)
-            carsLoad.drawTrafficLoad(img0, ui.checkBox_drawStaticObjects.isChecked(), ui.checkBox_drawGrid.isChecked())
+            
+            trafficLoad.setImageDimensions(img0.shape)
+
+            trafficLoad.processDetectionList(detectionList)
+
+            if ui.checkBox_drawGrid.isChecked() is True:
+                trafficLoad.drawTrafficGrid(img0)
+
+            if ui.checkBox_drawStaticObjects.isChecked() is True:
+                trafficLoad.drawTrafficLoad(img0)
+
             ui.setViewImage(camIndex, img0)
 ###################################################################################################
 
