@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1605</width>
+    <width>1675</width>
     <height>1059</height>
    </rect>
   </property>
@@ -74,7 +74,7 @@
    <widget class="QLabel" name="lbl_sideView_0">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>120</y>
       <width>261</width>
       <height>201</height>
@@ -105,7 +105,7 @@
    <widget class="QLabel" name="lbl_sideView_1">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>340</y>
       <width>261</width>
       <height>201</height>
@@ -136,10 +136,10 @@
    <widget class="QLabel" name="lbl_sideView_2">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>560</y>
       <width>261</width>
-      <height>211</height>
+      <height>201</height>
      </rect>
     </property>
     <property name="cursor">
@@ -180,7 +180,7 @@
    <widget class="QMdiArea" name="mdi_sideView_0">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>320</y>
       <width>260</width>
       <height>8</height>
@@ -211,7 +211,7 @@
    <widget class="QMdiArea" name="mdi_sideView_1">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>540</y>
       <width>260</width>
       <height>8</height>
@@ -239,8 +239,8 @@
    <widget class="QMdiArea" name="mdi_sideView_2">
     <property name="geometry">
      <rect>
-      <x>1320</x>
-      <y>770</y>
+      <x>1380</x>
+      <y>760</y>
       <width>260</width>
       <height>8</height>
      </rect>
@@ -295,7 +295,7 @@
    <widget class="QGroupBox" name="groupBox">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>830</y>
       <width>261</width>
       <height>51</height>
@@ -336,7 +336,7 @@
    <widget class="QCheckBox" name="checkBox_drawBoxes">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>800</y>
       <width>261</width>
       <height>20</height>
@@ -349,7 +349,7 @@
    <widget class="QCheckBox" name="checkBox_drawGrid">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>890</y>
       <width>261</width>
       <height>20</height>
@@ -362,7 +362,7 @@
    <widget class="QCheckBox" name="checkBox_drawStaticObjects">
     <property name="geometry">
      <rect>
-      <x>1320</x>
+      <x>1380</x>
       <y>910</y>
       <width>261</width>
       <height>20</height>
@@ -372,13 +372,70 @@
      <string>Static Objects</string>
     </property>
    </widget>
+   <widget class="QProgressBar" name="progressBar_0">
+    <property name="geometry">
+     <rect>
+      <x>1347</x>
+      <y>120</y>
+      <width>25</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar_1">
+    <property name="geometry">
+     <rect>
+      <x>1348</x>
+      <y>340</y>
+      <width>25</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QProgressBar" name="progressBar_2">
+    <property name="geometry">
+     <rect>
+      <x>1348</x>
+      <y>560</y>
+      <width>25</width>
+      <height>201</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>200</number>
+    </property>
+    <property name="value">
+     <number>0</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1605</width>
+     <width>1675</width>
      <height>26</height>
     </rect>
    </property>

@@ -14,6 +14,9 @@ sys.path.append('./yolo3_v6')
 from detect import *
 from utils.datasets import LoadWebcam
 
+from PyQt5 import QtGui
+from PyQt5 import QtCore
+
 ###################################################################################################
 # * Ui_MainWindowLogic
 #
@@ -27,7 +30,7 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         super().__init__()
         self.activeViewIndex = 0
         self.logLinesCount = 0
-        self.yoloServer = yoloServer
+        self.yoloServer = yoloServer 
 ###################################################################################################
 
 ###################################################################################################
@@ -47,6 +50,7 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
 
         # build side views array for direct access
         self.sideViews = [self.lbl_sideView_0, self.lbl_sideView_1, self.lbl_sideView_2]
+        self.progressBars = [self.progressBar_0, self.progressBar_1, self.progressBar_2]
 ###################################################################################################
 
 ###################################################################################################
@@ -104,6 +108,13 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
 ###################################################################################################
     def setViewState(self, viewIndex, state):
         pass
+###################################################################################################
+
+###################################################################################################
+# * setLoadProgressBar: set the traffic load bar of view
+###################################################################################################
+    def setLoadProgressBar(self, camIndex, trafficLevel):
+        self.progressBars[camIndex].setValue(min(trafficLevel, 200))
 ###################################################################################################
 
 ###################################################################################################
@@ -184,6 +195,10 @@ class TrafficLoad():
             i += 2
 
         self.loadMatrix = newLoadMatrix
+
+        # Count numbers in the list
+        trafficLoadValue = sum(map(lambda x : x > 10, self.loadMatrix))
+        return trafficLoadValue
 ###################################################################################################
 
 ###################################################################################################
@@ -217,40 +232,57 @@ class TrafficLoad():
 # * processThread
 #
 ###################################################################################################
-def processThread(ui, yolo, camIndex):
-    ui.log("Background thread " + str(camIndex) + " running...")
+class ProcessThreadClass(QtCore.QThread):
 
-    urls = ["https://5c328052cb7f5.streamlock.net/live/OHALIM.stream/playlist.m3u8",    # 25Hz
-            "https://5c328052cb7f5.streamlock.net/live/AHISEMECH.stream/playlist.m3u8",
-            "https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8"]    # 25Hz
-            # https://5c328052cb7f5.streamlock.net/live/YAARHEDERA.stream/playlist.m3u8 25Hz
+    # QT Signals must be public to allow connection from other classes
+    updateTrafficLoadSignal = QtCore.pyqtSignal(int, int)
 
-    # trim the file name from __file__ (__file__ is the full path of the file with the file name)
-    mainPyPath = __file__[0 : -len(os.path.basename(__file__))]
-    imagesPath = mainPyPath + "images/url_" + str(camIndex)
-    # cam = CR.CamReader(urls[camIndex], 25, imagesPath)
-    cam = CR.CamReader(urls[camIndex], 25)
-    # cam = CR.DirReader(imagesPath, 25)
-    trafficLoad = TrafficLoad()
-    
-    while True:
-        sleepToRoundUs(1000000, 100000 * camIndex)
-        imgToProcess, imgToShow = cam.nextFrame()
-        # ui.log("CamReader buffer len " + str(cam.getImagesCount()))
-        if imgToProcess is not None:
-            img0, detectionList = yolo.detect(imgToProcess, imgToShow, ui.checkBox_drawBoxes.isChecked())
-            
-            trafficLoad.setImageDimensions(img0.shape)
+    def __init__(self, ui, yolo, camIndex):
+        super().__init__()
+        self.ui_ = ui
+        self.yolo_ = yolo
+        self.camIndex_ = camIndex
 
-            trafficLoad.processDetectionList(detectionList)
+    def run(self):
 
-            if ui.checkBox_drawGrid.isChecked() is True:
-                trafficLoad.drawTrafficGrid(img0)
+        ui = self.ui_
+        yolo = self.yolo_
+        camIndex = self.camIndex_
 
-            if ui.checkBox_drawStaticObjects.isChecked() is True:
-                trafficLoad.drawTrafficLoad(img0)
+        ui.log("Background thread " + str(camIndex) + " running...")
 
-            ui.setViewImage(camIndex, img0)
+        urls = ["https://5c328052cb7f5.streamlock.net/live/OHALIM.stream/playlist.m3u8",    # 25Hz
+                "https://5c328052cb7f5.streamlock.net/live/AHISEMECH.stream/playlist.m3u8",
+                "https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8"]    # 25Hz
+                # https://5c328052cb7f5.streamlock.net/live/YAARHEDERA.stream/playlist.m3u8 25Hz
+
+        # trim the file name from __file__ (__file__ is the full path of the file with the file name)
+        mainPyPath = __file__[0 : -len(os.path.basename(__file__))]
+        imagesPath = mainPyPath + "images/url_" + str(camIndex)
+        # cam = CR.CamReader(urls[camIndex], 25, imagesPath)
+        cam = CR.CamReader(urls[camIndex], 25)
+        # cam = CR.DirReader(imagesPath, 25)
+        trafficLoad = TrafficLoad()
+        
+        while True:
+            sleepToRoundUs(1000000, 100000 * camIndex)
+            imgToProcess, imgToShow = cam.nextFrame()
+            # ui.log("CamReader buffer len " + str(cam.getImagesCount()))
+            if imgToProcess is not None:
+                img0, detectionList = yolo.detect(imgToProcess, imgToShow, ui.checkBox_drawBoxes.isChecked())
+                
+                trafficLoad.setImageDimensions(img0.shape)
+
+                trafficLoadValue = trafficLoad.processDetectionList(detectionList)
+                self.updateTrafficLoadSignal.emit(camIndex, trafficLoadValue)
+
+                if ui.checkBox_drawGrid.isChecked() is True:
+                    trafficLoad.drawTrafficGrid(img0)
+
+                if ui.checkBox_drawStaticObjects.isChecked() is True:
+                    trafficLoad.drawTrafficLoad(img0)
+
+                ui.setViewImage(camIndex, img0)
 ###################################################################################################
 
 ###################################################################################################
@@ -270,16 +302,13 @@ def drawMainWindow():
 
     yolo.loadData()
 
-    # start processThread as demon thread
-    threads = []
-    threads.append(threading.Thread(target=processThread, args=(ui, yolo, 0), daemon=True))
-    threads.append(threading.Thread(target=processThread, args=(ui, yolo, 1), daemon=True))
-    threads.append(threading.Thread(target=processThread, args=(ui, yolo, 2), daemon=True))
-
-    threads[0].start()
-    threads[1].start()
-    threads[2].start()
-
+    # create and start processThread
+    threads = [None] * 3
+    for i in range(0, 3):
+        threads[i] = ProcessThreadClass(ui, yolo, i)
+        threads[i].updateTrafficLoadSignal.connect(ui.setLoadProgressBar)
+        threads[i].start()
+        
     retCode = app.exec_()
     sys.exit(retCode)
 ###################################################################################################
