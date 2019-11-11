@@ -1,5 +1,8 @@
-# YOLO
-Detect traffic load based on YOLO implemented from https://github.com/ultralytics/yolov3.
+# Traffic Load Detection
+
+This is the graduate project of Perach Ben David and Yehuda Aharon Ezer in Software Engineering Master's degree at Ort Braude College.  
+
+The project topic is to implement traffic load detection based on YOLO algorithem, The YOLO implementation was took from https://github.com/ultralytics/yolov3.
 
 # Installation
 
