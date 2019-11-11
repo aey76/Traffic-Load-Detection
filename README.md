@@ -1,8 +1,10 @@
+![alt text](D:/YOLO/git/Traffic-Load-Detection/arts/gasfadf.png "Ort Braude College")
+
 # Traffic Load Detection
 
 This is the graduate project of Perach Ben David and Yehuda Aharon Ezer in Software Engineering Master's degree at Ort Braude College.  
 
-The project topic is to implement traffic load detection based on YOLO algorithem, The YOLO implementation was took from https://github.com/ultralytics/yolov3.
+The project topic is to implement traffic load detection based on YOLO algorithm, The YOLO implementation was took from https://github.com/ultralytics/yolov3.
 
 # Installation
 
