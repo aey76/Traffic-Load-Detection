@@ -1,5 +1,5 @@
 # YOLO
-Detect traffic load based on YOLO.
+Detect traffic load based on YOLO implemented from https://github.com/ultralytics/yolov3.
 
 # Installation
 
