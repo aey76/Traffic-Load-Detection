@@ -2,10 +2,14 @@
 # File: gui_main.py
 #
 ###################################################################################################
+
 import os, sys, time, datetime, threading, logging
 import gui_design_code as GUI
 import camera_reader as CR
 import yolo_server as YS
+
+# to allow debuging QThreads
+import ptvsd
 
 import cv2
 
@@ -31,6 +35,7 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         self.activeViewIndex = 0
         self.logLinesCount = 0
         self.yoloServer = yoloServer 
+        self.recordingOn = False
 ###################################################################################################
 
 ###################################################################################################
@@ -47,6 +52,9 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         
         # connect sensitivity slidbar event
         self.slider_sensitivity.valueChanged.connect(self.handleSensitivity)
+
+        # connect Start Record
+        self.pushButton_StartRecord.clicked.connect(self.handleStartRecord)
 
         # build side views array for direct access
         self.sideViews = [self.lbl_sideView_0, self.lbl_sideView_1, self.lbl_sideView_2]
@@ -69,6 +77,27 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         newThreshold = self.slider_sensitivity.value() / self.slider_sensitivity.maximum()
         self.yoloServer.setThreshold(newThreshold)
         self.log("Detection sensitivity: " + str(newThreshold))
+###################################################################################################
+
+###################################################################################################
+# * handleStartRecord: handle recording push button
+###################################################################################################
+    def handleStartRecord(self):
+        if self.recordingOn is False:
+            self.pushButton_StartRecord.setText('Stop Recording')
+            self.recordingOn = True
+            self.log("Recording is ON")
+        else:
+            self.pushButton_StartRecord.setText('Start Recording')
+            self.recordingOn = False
+            self.log("Recording is OFF")
+###################################################################################################
+
+###################################################################################################
+# * isRecordingOn: Return the recording state
+###################################################################################################
+    def isRecordingOn(self):
+        return self.recordingOn
 ###################################################################################################
 
 ###################################################################################################
@@ -159,8 +188,8 @@ class TrafficLoad():
     def setImageDimensions(self, imgShape):
         self.img0WidthPixels = imgShape[1]
         self.img0HeightPixels = imgShape[0]
-        self.img0WidthBoxes = int(self.img0WidthPixels / 20)
-        self.img0HeightBoxes = int(self.img0HeightPixels / 20)
+        self.img0WidthBoxes = int(self.img0WidthPixels / 20) + 1
+        self.img0HeightBoxes = int(self.img0HeightPixels / 20) + 1
 
         if len(self.loadMatrix) == 0:
             self.loadMatrix = [0] * (self.img0WidthBoxes * self.img0HeightBoxes)
@@ -244,7 +273,7 @@ class ProcessThreadClass(QtCore.QThread):
         self.camIndex_ = camIndex
 
     def run(self):
-
+        ptvsd.debug_this_thread()
         ui = self.ui_
         yolo = self.yolo_
         camIndex = self.camIndex_
@@ -252,7 +281,7 @@ class ProcessThreadClass(QtCore.QThread):
         ui.log("Background thread " + str(camIndex) + " running...")
 
         urls = ["https://5c328052cb7f5.streamlock.net/live/OHALIM.stream/playlist.m3u8",    # 25Hz
-                "https://5c328052cb7f5.streamlock.net/live/AHISEMECH.stream/playlist.m3u8",
+                "https://5d8c50e7b358f.streamlock.net/live/MISGAV.stream/playlist.m3u8",
                 "https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8"]    # 25Hz
                 # https://5c328052cb7f5.streamlock.net/live/YAARHEDERA.stream/playlist.m3u8 25Hz
 

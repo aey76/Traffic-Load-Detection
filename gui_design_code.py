@@ -112,10 +112,10 @@ class Ui_MainWindow(object):
         self.checkBox_drawBoxes.setGeometry(QtCore.QRect(1380, 800, 261, 20))
         self.checkBox_drawBoxes.setObjectName("checkBox_drawBoxes")
         self.checkBox_drawGrid = QtWidgets.QCheckBox(self.centralwidget)
-        self.checkBox_drawGrid.setGeometry(QtCore.QRect(1380, 890, 261, 20))
+        self.checkBox_drawGrid.setGeometry(QtCore.QRect(1380, 890, 61, 20))
         self.checkBox_drawGrid.setObjectName("checkBox_drawGrid")
         self.checkBox_drawStaticObjects = QtWidgets.QCheckBox(self.centralwidget)
-        self.checkBox_drawStaticObjects.setGeometry(QtCore.QRect(1380, 910, 261, 20))
+        self.checkBox_drawStaticObjects.setGeometry(QtCore.QRect(1440, 890, 111, 20))
         self.checkBox_drawStaticObjects.setObjectName("checkBox_drawStaticObjects")
         self.progressBar_0 = QtWidgets.QProgressBar(self.centralwidget)
         self.progressBar_0.setGeometry(QtCore.QRect(1347, 120, 25, 201))
@@ -135,6 +135,9 @@ class Ui_MainWindow(object):
         self.progressBar_2.setProperty("value", 0)
         self.progressBar_2.setOrientation(QtCore.Qt.Vertical)
         self.progressBar_2.setObjectName("progressBar_2")
+        self.pushButton_StartRecord = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_StartRecord.setGeometry(QtCore.QRect(1380, 940, 261, 51))
+        self.pushButton_StartRecord.setObjectName("pushButton_StartRecord")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1675, 26))
@@ -163,6 +166,7 @@ class Ui_MainWindow(object):
         self.checkBox_drawBoxes.setText(_translate("MainWindow", "YOLO Objects"))
         self.checkBox_drawGrid.setText(_translate("MainWindow", "Grid"))
         self.checkBox_drawStaticObjects.setText(_translate("MainWindow", "Static Objects"))
+        self.pushButton_StartRecord.setText(_translate("MainWindow", "Start Record"))
 
 
 if __name__ == "__main__":
