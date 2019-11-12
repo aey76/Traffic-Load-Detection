@@ -270,32 +270,41 @@ class ProcessThreadClass(QtCore.QThread):
         self.yolo_ = yolo
         self.camIndex_ = camIndex
 
+        # process source according to camIndex and create cam reader
+        f = open("sources.txt", "r")
+        sourcesList = [line for line in f]
+        f.close()
+
+        sourceLine = sourcesList[9 + camIndex]
+
+        if sourceLine.startswith("http"):
+            # trim the file name from __file__ (__file__ is the full path of the file with the file name)
+            mainPyPath = __file__[0 : -len(os.path.basename(__file__))]
+            imagesPath = mainPyPath + "images\\url_" + str(camIndex)
+            sourceLineSplit = sourceLine.split(",")
+            self.cam = CR.CamReader(sourceLineSplit[0], int(sourceLineSplit[1]), imagesPath)
+        else:
+            self.cam = CR.DirReader(sourceLine.split("\n")[0])
+
     def run(self):
+        # make this thread debug-able
         ptvsd.debug_this_thread()
+
+        # take self variables to local variables just to make coding easy
         ui = self.ui_
         yolo = self.yolo_
         camIndex = self.camIndex_
 
-        ui.log("Background thread " + str(camIndex) + " running...")
+        ui.log("Background thread " + str(camIndex) + " start to run...")
 
-        urls = [["https://5c328052cb7f5.streamlock.net/live/OHALIM.stream/playlist.m3u8", 25],
-                ["http://46.16.221.234:80/mjpg/video.mjpg", 2], # https://5d8c50e7b358f.streamlock.net/live/MISGAV.stream/playlist.m3u8",
-                ["https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8", 25]]
-                # https://5c328052cb7f5.streamlock.net/live/YAARHEDERA.stream/playlist.m3u8 25Hz
-
-        # trim the file name from __file__ (__file__ is the full path of the file with the file name)
-        mainPyPath = __file__[0 : -len(os.path.basename(__file__))]
-        imagesPath = mainPyPath + "images/url_" + str(camIndex)
-        # cam = CR.CamReader(urls[camIndex][0], urls[camIndex][1], imagesPath)
-        cam = CR.DirReader("D:/YOLO/git/Traffic-Load-Detection/images/url_1_2019-11-12_17_53_48")
         trafficLoad = TrafficLoad()
         
         while True:
             sleepToRoundUs(1000000, 100000 * camIndex)
-            messageToLog = cam.recordImages(ui.isRecordingActive())
+            messageToLog = self.cam.recordImages(ui.isRecordingActive())
             if len(messageToLog) > 0:
                 ui.log(messageToLog)
-            imgToProcess, imgToShow = cam.nextFrame()
+            imgToProcess, imgToShow = self.cam.nextFrame()
             # ui.log("CamReader buffer len " + str(cam.getImagesCount()))
             if imgToProcess is not None:
                 img0, detectionList = yolo.detect(imgToProcess, imgToShow, ui.checkBox_drawBoxes.isChecked())
@@ -336,8 +345,7 @@ def drawMainWindow():
     for i in range(0, 3):
         threads[i] = ProcessThreadClass(ui, yolo, i)
         threads[i].updateTrafficLoadSignal.connect(ui.setLoadProgressBar)
-        if i is 1:
-            threads[i].start()
+        threads[i].start()
         
     retCode = app.exec_()
     sys.exit(retCode)
