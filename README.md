@@ -23,3 +23,18 @@ The project topic is to implement traffic load detection based on YOLO algorithm
 
 # Running
 Run ./gui_main.py
+
+# Overview
+
+Main window layout with view to 3 live webcams
+![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/00_View.png "00")
+
+Set "YOLO Objects" check box to see the detected cars
+![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/01_YOLO_Objects.png "01")
+
+Set "Static Objects" check box to see high load areas
+![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/02_Traffic_Load.png "02")
+
+and see the green bar raise as the traffic load increase
+![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/03_Traffic_High_Load.png "03")
+
