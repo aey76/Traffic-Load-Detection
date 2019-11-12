@@ -27,14 +27,14 @@ Run ./gui_main.py
 # Overview
 
 Main window layout with view to 3 live webcams
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/00_View - With Arrows.png "00")
+![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/00_View__With_Arrows.png "00")
 
 Set "YOLO Objects" check box to see the detected cars
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/01_YOLO_Objects - With Arrows.png "01")
+![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/01_YOLO_Objects__With_Arrows.png "01")
 
 Set "Static Objects" check box to see high load areas
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/02_Traffic_Load - With Arrows.png "02")
+![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/02_Traffic_Load__With_Arrows.png "02")
 
 and see the green bar raise as the traffic load increase
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/03_Traffic_High_Load - With Arrows.png "03")
+![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/03_Traffic_High_Load__With_Arrows.png "03")
 
