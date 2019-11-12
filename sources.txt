@@ -8,8 +8,8 @@ all rest of the lines are ignored
 
 
 D:\YOLO\git\Traffic-Load-Detection\images\url_1_2019-11-12_19_39_00
-http://46.16.221.234:80/mjpg/video.mjpg, 2
-D:\YOLO\git\Traffic-Load-Detection\images\url_0_2019_11_06_23_39_00
+http://wzmedia.dot.ca.gov:1935/D3/32_main_chico.stream/playlist.m3u8, 15
+http://wzmedia.dot.ca.gov/D4/E80_at_580_880.stream/playlist.m3u8, 15
 
 
 
@@ -20,3 +20,6 @@ http://46.16.221.234:80/mjpg/video.mjpg, 2
 https://5d8c50e7b358f.streamlock.net/live/MISGAV.stream/playlist.m3u8, 25
 https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8, 25
 https://5c328052cb7f5.streamlock.net/live/YAARHEDERA.stream/playlist.m3u8, 25
+
+http://wzmedia.dot.ca.gov:1935/D3/99_4th.stream/playlist.m3u8, 15
+http://wzmedia.dot.ca.gov/D4/E80_at_580_880.stream/playlist.m3u8, 15
