@@ -40,8 +40,8 @@ class CamReader:
         self.buff = []
         self.url = url
         self.cameraRate = cameraRate
-        self.storeImagesPath = storeImagesPath
-        self.storeImages = len(storeImagesPath) > 0
+        self.storeImagesPath = storeImagesPath + "_YYYY_MM_DD_HH_MM_SS"
+        self.storeImagesFlag = False
         self.bgThread = threading.Thread(target=self.bufferingThread, args=(url, ), daemon=True)
         self.bgThread.start()
 ###################################################################################################
@@ -60,8 +60,8 @@ class CamReader:
                     ret_val, img = cam.retrieve()
                     if ret_val == True:
                         self.buff.insert(0, img)
-                        if self.storeImages is True:
-                            cv2.imwrite(self.storeImagesPath + "/image_" + str(imagesCount) + ".png", img)
+                        if self.storeImagesFlag is True:
+                            cv2.imwrite(self.storeImagesPath + "/image_" + "{:06d}".format(imagesCount) + ".png", img)
                 imagesCount += 1
             else:
                 cam.release()
@@ -89,6 +89,27 @@ class CamReader:
         return None, None
 ###################################################################################################
 
+###################################################################################################
+# * recordImages: call with True to start recording, call with false to stop recording
+###################################################################################################
+    def recordImages(self, recordOn):
+        import os, datetime
+        strLog = ""
+        if self.storeImagesFlag is False and recordOn is True:
+            self.storeImagesPath = self.storeImagesPath[0:-19] + datetime.datetime.now().strftime("%Y-%m-%d_%H_%M_%S")
+            try:
+                os.makedirs(self.storeImagesPath)
+                strLog = "Start Recording in " + self.storeImagesPath
+            except OSError:
+                print ("Creation of the directory %s failed" % self.storeImagesPath)
+                strLog = "Creation of the directory " + self.storeImagesPath + " failed"
+        else:
+            if self.storeImagesFlag is True and recordOn is False:
+                strLog = "Recording Stopped"
+
+        self.storeImagesFlag = recordOn
+        return strLog
+###################################################################################################
 
 ###################################################################################################
 # * DirReader - read images from local directory
@@ -101,36 +122,42 @@ class DirReader:
 # imagesPath - directory path
 # cameraRate - 
 ###################################################################################################
-    def __init__(self, imagesPath, cameraRate):
-        self.cameraRate = cameraRate
-        self.imagesPath = imagesPath
-        self.imagesCount = 0
+    def __init__(self, imagesPath):
+        import os
+        self.filesList = [f for f in os.scandir(imagesPath)]
+        self.imagesCount = len(self.filesList)
+        self.nextFileIndexToRead = 0
 ###################################################################################################
 
 ###################################################################################################
 # * getImagesCount: -
 ###################################################################################################
     def getImagesCount(self):
-        return 0
+        return self.imagesCount
 ###################################################################################################
 
 ###################################################################################################
 # * nextFrame: read the next frame
 ###################################################################################################
     def nextFrame(self):
-        imageName = "image_" + str(self.imagesCount) + ".png"
-        imgToShow = cv2.imread(self.imagesPath + "/" + imageName,)
+        imageFileName = self.filesList[self.nextFileIndexToRead]
+        imgToShow = cv2.imread(imageFileName.path,)
 
         if imgToShow is None:
-            self.imagesCount = 0
-            imageName = "image_" + str(self.imagesCount) + ".png"
-            imgToShow = cv2.imread(self.imagesPath + "/" + imageName,)
-            if imgToShow is None:
-                return None, None
+            return None, None
 
-        self.imagesCount += self.cameraRate
+        self.nextFileIndexToRead += 1
+        if self.nextFileIndexToRead >= self.imagesCount:
+            self.nextFileIndexToRead = 0
 
         return buildImageToProcess(imgToShow), imgToShow
+###################################################################################################
+
+###################################################################################################
+# * recordImages: call with True to start recording, call with false to stop recording
+###################################################################################################
+    def recordImages(self, recordOn):
+        return ""
 ###################################################################################################
 
 ###################################################################################################

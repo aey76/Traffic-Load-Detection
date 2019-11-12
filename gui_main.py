@@ -86,17 +86,15 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         if self.recordingOn is False:
             self.pushButton_StartRecord.setText('Stop Recording')
             self.recordingOn = True
-            self.log("Recording is ON")
         else:
             self.pushButton_StartRecord.setText('Start Recording')
             self.recordingOn = False
-            self.log("Recording is OFF")
 ###################################################################################################
 
 ###################################################################################################
-# * isRecordingOn: Return the recording state
+# * isRecordingActive: Return the recording state
 ###################################################################################################
-    def isRecordingOn(self):
+    def isRecordingActive(self):
         return self.recordingOn
 ###################################################################################################
 
@@ -280,21 +278,23 @@ class ProcessThreadClass(QtCore.QThread):
 
         ui.log("Background thread " + str(camIndex) + " running...")
 
-        urls = ["https://5c328052cb7f5.streamlock.net/live/OHALIM.stream/playlist.m3u8",    # 25Hz
-                "https://5d8c50e7b358f.streamlock.net/live/MISGAV.stream/playlist.m3u8",
-                "https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8"]    # 25Hz
+        urls = [["https://5c328052cb7f5.streamlock.net/live/OHALIM.stream/playlist.m3u8", 25],
+                ["http://46.16.221.234:80/mjpg/video.mjpg", 2], # https://5d8c50e7b358f.streamlock.net/live/MISGAV.stream/playlist.m3u8",
+                ["https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8", 25]]
                 # https://5c328052cb7f5.streamlock.net/live/YAARHEDERA.stream/playlist.m3u8 25Hz
 
         # trim the file name from __file__ (__file__ is the full path of the file with the file name)
         mainPyPath = __file__[0 : -len(os.path.basename(__file__))]
         imagesPath = mainPyPath + "images/url_" + str(camIndex)
-        # cam = CR.CamReader(urls[camIndex], 25, imagesPath)
-        cam = CR.CamReader(urls[camIndex], 25)
-        # cam = CR.DirReader(imagesPath, 25)
+        # cam = CR.CamReader(urls[camIndex][0], urls[camIndex][1], imagesPath)
+        cam = CR.DirReader("D:/YOLO/git/Traffic-Load-Detection/images/url_1_2019-11-12_17_53_48")
         trafficLoad = TrafficLoad()
         
         while True:
             sleepToRoundUs(1000000, 100000 * camIndex)
+            messageToLog = cam.recordImages(ui.isRecordingActive())
+            if len(messageToLog) > 0:
+                ui.log(messageToLog)
             imgToProcess, imgToShow = cam.nextFrame()
             # ui.log("CamReader buffer len " + str(cam.getImagesCount()))
             if imgToProcess is not None:
@@ -322,7 +322,7 @@ def drawMainWindow():
     # main objects
     app = GUI.QtWidgets.QApplication(sys.argv)
     qtMainWindow = GUI.QtWidgets.QMainWindow()
-    yolo = YS.YoloServer()
+    yolo = YS.YoloServer("") # ByPass
     ui = Ui_MainWindowLogic(yolo)
     
     ui.setupUi(qtMainWindow)
@@ -336,7 +336,8 @@ def drawMainWindow():
     for i in range(0, 3):
         threads[i] = ProcessThreadClass(ui, yolo, i)
         threads[i].updateTrafficLoadSignal.connect(ui.setLoadProgressBar)
-        threads[i].start()
+        if i is 1:
+            threads[i].start()
         
     retCode = app.exec_()
     sys.exit(retCode)

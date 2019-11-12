@@ -21,14 +21,15 @@ class YoloServer:
 ###################################################################################################
 # * __init__: init members
 ###################################################################################################
-    def __init__(self):
+    def __init__(self, byPassStr=""):
         self.weightsSource = "./yolo3_v6/weights/yolov3.weights"
         self.img_size = 416
         self.cfg = "./yolo3_v6/cfg/yolov3.cfg"
         self.data_cfg = "./yolo3_v6/data/coco.data"
         self.conf_threshold = 0.2
         self.nms_threshold = 0.2
-        self.lock_key = threading.Lock() 
+        self.lock_key = threading.Lock()
+        self.byPass = byPassStr is "ByPass"
 ###################################################################################################
 
 ###################################################################################################
@@ -43,6 +44,9 @@ class YoloServer:
 # * loadData: load data
 ###################################################################################################
     def loadData(self):
+        if self.byPass is True:
+            return
+
         self.device = torch_utils.select_device()
 
         # Initialize model
@@ -68,6 +72,10 @@ class YoloServer:
     def detect(self, rawImage, viewImage, drawBoxes):
         # start critical section to make sure only one thread using the detect function
         detToReturn = []
+
+        if self.byPass is True:
+            return viewImage, detToReturn
+
         with self.lock_key:
             # Get detections
             rawImage = torch.from_numpy(rawImage).unsqueeze(0).to(self.device)
