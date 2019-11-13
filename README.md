@@ -24,7 +24,7 @@ The project topic is to implement traffic load detection based on YOLO algorithm
 # Running
 Run ./gui_main.py
 
-# Overview
+# Application Overview
 
 Main window layout with view to 3 live webcams
 ![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/00_View__With_Arrows.png "00")
