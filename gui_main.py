@@ -36,6 +36,11 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         self.logLinesCount = 0
         self.yoloServer = yoloServer 
         self.recordingOn = False
+        self.graph_lock_key = threading.Lock()
+        self.loadHistory_0 = [0] * 200
+        self.loadHistory_1 = [0] * 200
+        self.loadHistory_2 = [0] * 200
+        self.loadHistoryArr = [self.loadHistory_0, self.loadHistory_1, self.loadHistory_2]
 ###################################################################################################
 
 ###################################################################################################
@@ -142,6 +147,10 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
 ###################################################################################################
     def setLoadProgressBar(self, camIndex, trafficLevel):
         self.progressBars[camIndex].setValue(min(trafficLevel, 200))
+
+        self.loadHistoryArr[camIndex].append(int(trafficLevel / 2))
+        self.loadHistoryArr[camIndex].pop(0)
+        self.updateGraph()
 ###################################################################################################
 
 ###################################################################################################
@@ -151,7 +160,21 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         return 3
 ###################################################################################################
 
+###################################################################################################
+# * updateGraph: plot the 3 loadHistory lists
+###################################################################################################
+    def updateGraph(self):
 
+        with self.graph_lock_key:
+            self.MplWidget.canvas.axes.clear()
+            self.MplWidget.canvas.axes.set_ylabel("traffic load")
+            self.MplWidget.canvas.axes.set_ylim(0, 100)
+            self.MplWidget.canvas.axes.plot(self.loadHistory_0)
+            self.MplWidget.canvas.axes.plot(self.loadHistory_1)
+            self.MplWidget.canvas.axes.plot(self.loadHistory_2)
+            #self.MplWidget.canvas.axes.set_title('Traffic Load Graph')
+            self.MplWidget.canvas.draw()
+###################################################################################################
 
 ###################################################################################################
 # * sleepToRoundUs
@@ -335,7 +358,7 @@ def drawMainWindow():
     ui = Ui_MainWindowLogic(yolo)
     
     ui.setupUi(qtMainWindow)
-    qtMainWindow.setWindowTitle("Roads 0.2.0")
+    qtMainWindow.setWindowTitle("Roads 0.3.0")
     qtMainWindow.show()
 
     yolo.loadData()

@@ -2,3 +2,4 @@
 # conda install numpy opencv matplotlib tqdm && conda install pytorch torchvision -c pytorch
 pyqt5
 pyqt5-tools
+pyqtgraph

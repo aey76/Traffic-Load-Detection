@@ -56,7 +56,7 @@ class Ui_MainWindow(object):
         self.lbl_sideView_2.setScaledContents(True)
         self.lbl_sideView_2.setObjectName("lbl_sideView_2")
         self.txt_Log = QtWidgets.QTextBrowser(self.centralwidget)
-        self.txt_Log.setGeometry(QtCore.QRect(30, 800, 1271, 192))
+        self.txt_Log.setGeometry(QtCore.QRect(30, 800, 401, 192))
         self.txt_Log.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.txt_Log.setObjectName("txt_Log")
         self.mdi_sideView_0 = QtWidgets.QMdiArea(self.centralwidget)
@@ -138,6 +138,9 @@ class Ui_MainWindow(object):
         self.pushButton_StartRecord = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_StartRecord.setGeometry(QtCore.QRect(1380, 940, 261, 51))
         self.pushButton_StartRecord.setObjectName("pushButton_StartRecord")
+        self.MplWidget = MplWidget(self.centralwidget)
+        self.MplWidget.setGeometry(QtCore.QRect(450, 790, 861, 211))
+        self.MplWidget.setObjectName("MplWidget")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 1675, 26))
@@ -167,6 +170,7 @@ class Ui_MainWindow(object):
         self.checkBox_drawGrid.setText(_translate("MainWindow", "Grid"))
         self.checkBox_drawStaticObjects.setText(_translate("MainWindow", "Static Objects"))
         self.pushButton_StartRecord.setText(_translate("MainWindow", "Start Record"))
+from mplwidget import MplWidget
 
 
 if __name__ == "__main__":
