@@ -201,9 +201,9 @@
     <property name="background">
      <brush brushstyle="SolidPattern">
       <color alpha="200">
-       <red>0</red>
-       <green>200</green>
-       <blue>0</blue>
+       <red>36</red>
+       <green>122</green>
+       <blue>181</blue>
       </color>
      </brush>
     </property>
@@ -229,9 +229,9 @@
     <property name="background">
      <brush brushstyle="SolidPattern">
       <color alpha="200">
-       <red>0</red>
-       <green>200</green>
-       <blue>0</blue>
+       <red>255</red>
+       <green>127</green>
+       <blue>14</blue>
       </color>
      </brush>
     </property>
@@ -257,9 +257,9 @@
     <property name="background">
      <brush brushstyle="SolidPattern">
       <color alpha="200">
-       <red>0</red>
-       <green>200</green>
-       <blue>0</blue>
+       <red>74</red>
+       <green>165</green>
+       <blue>74</blue>
       </color>
      </brush>
     </property>

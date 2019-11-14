@@ -37,9 +37,9 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         self.yoloServer = yoloServer 
         self.recordingOn = False
         self.graph_lock_key = threading.Lock()
-        self.loadHistory_0 = [0] * 200
-        self.loadHistory_1 = [0] * 200
-        self.loadHistory_2 = [0] * 200
+        self.loadHistory_0 = [0] * 120
+        self.loadHistory_1 = [0] * 120
+        self.loadHistory_2 = [0] * 120
         self.loadHistoryArr = [self.loadHistory_0, self.loadHistory_1, self.loadHistory_2]
 ###################################################################################################
 
@@ -64,6 +64,7 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         # build side views array for direct access
         self.sideViews = [self.lbl_sideView_0, self.lbl_sideView_1, self.lbl_sideView_2]
         self.progressBars = [self.progressBar_0, self.progressBar_1, self.progressBar_2]
+        self.mdi_sideViews = [self.mdi_sideView_0, self.mdi_sideView_1, self.mdi_sideView_2]
 ###################################################################################################
 
 ###################################################################################################
@@ -73,6 +74,7 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         if self.activeViewIndex is not newViewIndex:
             self.log("setActiveWindow " + str(newViewIndex))
             self.activeViewIndex = newViewIndex
+            self.mdi_mainView.setBackground(self.mdi_sideViews[newViewIndex].background())
 ###################################################################################################
 
 ###################################################################################################
@@ -167,7 +169,7 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
 
         with self.graph_lock_key:
             self.MplWidget.canvas.axes.clear()
-            self.MplWidget.canvas.axes.set_ylabel("traffic load")
+            self.MplWidget.canvas.axes.set_ylabel("traffic load %")
             self.MplWidget.canvas.axes.set_ylim(0, 100)
             self.MplWidget.canvas.axes.plot(self.loadHistory_0)
             self.MplWidget.canvas.axes.plot(self.loadHistory_1)
