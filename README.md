@@ -3,7 +3,7 @@
 
 # Traffic Load Detection
 
-This is the graduate project of Perach Ben David and Yehuda Aharon Ezer in Software Engineering Master's degree at Ort Braude College.  
+This is the graduate project of **Perach Ben David** and **Yehuda Aharon Ezer** in Software Engineering Master's degree at Ort Braude College.  
 
 The project topic is to implement traffic load detection based on YOLO algorithm, The YOLO implementation was took from https://github.com/ultralytics/yolov3.
 
@@ -26,15 +26,24 @@ Run ./gui_main.py
 
 # Application Overview
 
-Main window layout with view to 3 live webcams
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/00_View__With_Arrows.png "00")
+1. Main window layout with view to 3 live webcams
 
-Set "YOLO Objects" check box to see the detected cars
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/01_YOLO_Objects__With_Arrows.png "01")
+![](./arts/00_View__With_Arrows.png "00")
 
-Set "Static Objects" check box to see high load areas
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/02_Traffic_Load__With_Arrows.png "02")
+---
 
-and see the green bar raise as the traffic load increase
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/03_Traffic_High_Load__With_Arrows.png "03")
+2. Set "YOLO Objects" check box to see the detected cars
 
+![](./arts/01_YOLO_Objects__With_Arrows.png "01")
+
+---
+
+3. Set "Static Objects" check box to see high load areas
+
+![](./arts/02_Traffic_Load__With_Arrows.png "02")
+
+---
+
+4. See the green bar raise as the traffic load increase and the traffic load history graph updates
+
+![](./arts/03_Traffic_High_Load__With_Arrows.png "03")
