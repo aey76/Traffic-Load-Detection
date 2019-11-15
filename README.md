@@ -47,3 +47,9 @@ Run ./gui_main.py
 4. See the green bar raise as the traffic load increase and the traffic load history graph updates
 
 ![](./arts/03_Traffic_High_Load__With_Arrows.png "03")
+
+---
+
+5. You can record traffic sessions by pressing the "Start Record" button and reply them later.
+
+---
