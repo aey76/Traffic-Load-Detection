@@ -1,5 +1,5 @@
 
-![](https://github.com/aey76/Traffic-Load-Detection/blob/master/arts/gasfadf.png "Ort Braude College")
+![](./arts/gasfadf.png "Ort Braude College")
 
 # Traffic Load Detection
 
