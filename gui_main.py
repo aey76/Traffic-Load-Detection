@@ -253,7 +253,7 @@ class TrafficLoad():
 
         # Count numbers in the list
         redBoxCount = sum(map(lambda x : x > 2, self.redMatrix))
-        greenBoxCount = sum(map(lambda x : x > 0, self.greenMatrix))
+        greenBoxCount = sum(self.greenMatrix)
         if greenBoxCount == 0:
             return 0
         return int((100 * redBoxCount) / greenBoxCount)
@@ -343,7 +343,7 @@ class ProcessThreadClass(QtCore.QThread):
         ui.log("Background thread " + str(camIndex) + " start to run...")
 
         trafficLoad = TrafficLoad()
-        
+
         while True:
             sleepToRoundUs(1000000, 100000 * camIndex)
             messageToLog = self.cam.recordImages(ui.isRecordingActive())
