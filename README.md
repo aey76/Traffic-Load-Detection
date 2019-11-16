@@ -12,7 +12,8 @@ The project topic is to implement traffic load detection based on YOLO algorithm
 ## Prerequisites
 1. Windows 7 / 10 64bit
 2. Python 3.7.x 64bit
-3. NVIDIA GPU card (GTX 1050 and above)
+3. CUDA Toolkit 10.x
+4. NVIDIA GPU card (GTX 1050 and above)
 
 ## Downloading Project
 1. Clone this repo:  
