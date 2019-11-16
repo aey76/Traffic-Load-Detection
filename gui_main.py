@@ -147,10 +147,10 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
 ###################################################################################################
 # * setLoadProgressBar: set the traffic load bar of view
 ###################################################################################################
-    def setLoadProgressBar(self, camIndex, trafficLevel):
-        self.progressBars[camIndex].setValue(min(trafficLevel, 200))
+    def setLoadProgressBar(self, camIndex, trafficLoadLevel):
+        self.progressBars[camIndex].setValue(trafficLoadLevel)
 
-        self.loadHistoryArr[camIndex].append(int(trafficLevel / 2))
+        self.loadHistoryArr[camIndex].append(trafficLoadLevel)
         self.loadHistoryArr[camIndex].pop(0)
         self.updateGraph()
 ###################################################################################################
@@ -198,7 +198,8 @@ class TrafficLoad():
 # * __init__: init super class and init members
 ###################################################################################################
     def __init__(self):
-        self.loadMatrix = []
+        self.redMatrix = []         # map the areas that has static objects
+        self.greenMatrix = []       # map the areas that can contains objects
         self.img0WidthPixels = 0
         self.img0HeightPixels = 0
         self.img0WidthBoxes = 0
@@ -214,15 +215,16 @@ class TrafficLoad():
         self.img0WidthBoxes = int(self.img0WidthPixels / 20) + 1
         self.img0HeightBoxes = int(self.img0HeightPixels / 20) + 1
 
-        if len(self.loadMatrix) == 0:
-            self.loadMatrix = [0] * (self.img0WidthBoxes * self.img0HeightBoxes)
+        if len(self.redMatrix) == 0:
+            self.redMatrix = [0] * (self.img0WidthBoxes * self.img0HeightBoxes)
+            self.greenMatrix = [0] * (self.img0WidthBoxes * self.img0HeightBoxes)
 ###################################################################################################
 
 ###################################################################################################
 # * processDetectionList: Process detection list
 ###################################################################################################
     def processDetectionList(self, detectionList):
-        newLoadMatrix = [0] * (self.img0WidthBoxes * self.img0HeightBoxes)
+        newRedMatrix = [0] * (self.img0WidthBoxes * self.img0HeightBoxes)
 
         i = 0
         while i < len(detectionList):
@@ -242,15 +244,19 @@ class TrafficLoad():
 
             for y in range(y1, y2+1):
                 for x in range(x1, x2+1):
-                    newLoadMatrix[y * self.img0WidthBoxes + x] = self.loadMatrix[y * self.img0WidthBoxes + x] + 1
+                    newRedMatrix[y * self.img0WidthBoxes + x] = self.redMatrix[y * self.img0WidthBoxes + x] + 1
+                    self.greenMatrix[y * self.img0WidthBoxes + x] = 1
 
             i += 2
 
-        self.loadMatrix = newLoadMatrix
+        self.redMatrix = newRedMatrix
 
         # Count numbers in the list
-        trafficLoadValue = sum(map(lambda x : x > 10, self.loadMatrix))
-        return trafficLoadValue
+        redBoxCount = sum(map(lambda x : x > 2, self.redMatrix))
+        greenBoxCount = sum(map(lambda x : x > 0, self.greenMatrix))
+        if greenBoxCount == 0:
+            return 0
+        return int((100 * redBoxCount) / greenBoxCount)
 ###################################################################################################
 
 ###################################################################################################
@@ -265,13 +271,27 @@ class TrafficLoad():
 ###################################################################################################
 
 ###################################################################################################
-# * drawTrafficLoad: Process detection list
+# * drawGreenGrid: Draw the green boxes according to greenMatrix
+###################################################################################################
+    def drawGreenGrid(self, img0):
+        i = 0
+        while i < len(self.greenMatrix):
+            if self.greenMatrix[i] > 0:
+                c1 = divmod(i, self.img0WidthBoxes)
+                c1 = (c1[1] * 20, c1[0] * 20)
+                c2 = (c1[0] + 19, c1[1] + 19)
+                cv2.rectangle(img0, c1, c2, [0, 200, 0], thickness=1)
+            i += 1
+###################################################################################################
+
+###################################################################################################
+# * drawTrafficLoad: Draw the red boxes according to redMatrix
 ###################################################################################################
     def drawTrafficLoad(self, img0):
         i = 0
-        while i < len(self.loadMatrix):
-            if self.loadMatrix[i] > 2:
-                v = self.loadMatrix[i]
+        while i < len(self.redMatrix):
+            if self.redMatrix[i] > 2:
+                v = self.redMatrix[i]
                 c1 = divmod(i, self.img0WidthBoxes)
                 c1 = (c1[1] * 20, c1[0] * 20)
                 c2 = (c1[0] + 19, c1[1] + 19)
@@ -342,6 +362,9 @@ class ProcessThreadClass(QtCore.QThread):
                 if ui.checkBox_drawGrid.isChecked() is True:
                     trafficLoad.drawTrafficGrid(img0)
 
+                if ui.checkBox_drawGreenGrid.isChecked() is True:
+                    trafficLoad.drawGreenGrid(img0)
+
                 if ui.checkBox_drawStaticObjects.isChecked() is True:
                     trafficLoad.drawTrafficLoad(img0)
 
@@ -360,7 +383,7 @@ def drawMainWindow():
     ui = Ui_MainWindowLogic(yolo)
     
     ui.setupUi(qtMainWindow)
-    qtMainWindow.setWindowTitle("Roads 0.3.0")
+    qtMainWindow.setWindowTitle("Roads 0.4.0")
     qtMainWindow.show()
 
     yolo.loadData()
