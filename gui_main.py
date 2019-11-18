@@ -8,7 +8,7 @@ import gui_design_code as GUI
 import camera_reader as CR
 import yolo_server as YS
 
-# to allow debuging QThreads
+# use ptvsd to allow debuging QThreads
 import ptvsd
 
 import cv2
@@ -169,7 +169,7 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
 
         with self.graph_lock_key:
             self.MplWidget.canvas.axes.clear()
-            self.MplWidget.canvas.axes.set_ylabel("traffic load %")
+            self.MplWidget.canvas.axes.set_ylabel("Traffic Load %")
             self.MplWidget.canvas.axes.set_ylim(0, 100)
             self.MplWidget.canvas.axes.plot(self.loadHistory_0)
             self.MplWidget.canvas.axes.plot(self.loadHistory_1)
@@ -379,11 +379,13 @@ def drawMainWindow():
     # main objects
     app = GUI.QtWidgets.QApplication(sys.argv)
     qtMainWindow = GUI.QtWidgets.QMainWindow()
-    yolo = YS.YoloServer("") # ByPass
+
+    # send "ByPass" to disable the yolo server functionality, this is handy for debuging
+    yolo = YS.YoloServer("")
     ui = Ui_MainWindowLogic(yolo)
     
     ui.setupUi(qtMainWindow)
-    qtMainWindow.setWindowTitle("Roads 0.4.0")
+    qtMainWindow.setWindowTitle("Traffic Monitor 0.4.0")
     qtMainWindow.show()
 
     yolo.loadData()
