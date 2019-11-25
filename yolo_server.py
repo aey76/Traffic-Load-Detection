@@ -12,7 +12,6 @@ from models import *
 from utils.datasets import *
 from utils.utils import *
 
-
 ###################################################################################################
 # * YoloServer
 # Wrapper class of YOLO algorithm
@@ -98,12 +97,18 @@ class YoloServer:
                     # Add bbox to the image
                     label = '%s %.2f' % (self.classes[int(cls)], conf)
                     if self.classes[int(cls)] == "car" or self.classes[int(cls)] == "bus" or self.classes[int(cls)] == "truck":
-                        detToReturn.append((int(xyxy[0]), int(xyxy[1])))
-                        detToReturn.append((int(xyxy[2]), int(xyxy[3])))
 
-                        # Draw bounding boxes and labels of detections
-                        if drawBoxes is True:
-                            plot_one_box(xyxy, viewImage, label=label, color=self.colors[int(cls)])
+                        # check for "big" objects, the big objects are noise and should not be handeled
+                        objSizeInPixels = (int(xyxy[2])-int(xyxy[0])) * (int(xyxy[3]) - int(xyxy[1]))
+                        if objSizeInPixels < 40000:
+                            detToReturn.append((int(xyxy[0]), int(xyxy[1])))
+                            detToReturn.append((int(xyxy[2]), int(xyxy[3])))
+
+                            # Draw bounding boxes and labels of detections
+                            if drawBoxes is True:
+                                plot_one_box(xyxy, viewImage, label=label, color=self.colors[int(cls)])
+                        else:
+                            bigOne = 1
 
             return viewImage, detToReturn
 ###################################################################################################

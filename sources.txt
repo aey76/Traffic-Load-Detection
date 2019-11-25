@@ -8,7 +8,7 @@ all rest of the lines are ignored
 
 
 http://46.16.221.234:80/mjpg/video.mjpg, 2
-http://wzmedia.dot.ca.gov:1935/D3/32_main_chico.stream/playlist.m3u8, 15
+https://5c328052cb7f5.streamlock.net/live/KFRAKARA.stream/playlist.m3u8, 25
 https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8, 25
 
 
@@ -19,10 +19,20 @@ https://5c328052cb7f5.streamlock.net/live/OHALIM.stream/playlist.m3u8, 25
 
 # traffic circle
 http://46.16.221.234:80/mjpg/video.mjpg, 2
+
+# misgav - low res, dont use
 https://5d8c50e7b358f.streamlock.net/live/MISGAV.stream/playlist.m3u8, 25
 
+https://5d8c50e7b358f.streamlock.net/live/HASARGEL.stream/playlist.m3u8, 25
+
+# HASARGEL
+https://5c328052cb7f5.streamlock.net/live/HASARGEL.stream/playlist.m3u8, 25 (1024x768)
+
+
+https://5c328052cb7f5.streamlock.net/live/KFRAKARA.stream/playlist.m3u8, 25 (800x600)
+
 # Ofakin high res
-https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8, 25
+https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8, 25 (1920, 1080)
 https://5c328052cb7f5.streamlock.net/live/YAARHEDERA.stream/playlist.m3u8, 25
 
 http://wzmedia.dot.ca.gov:1935/D3/99_4th.stream/playlist.m3u8, 15

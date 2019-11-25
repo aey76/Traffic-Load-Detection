@@ -9,7 +9,7 @@ import camera_reader as CR
 import yolo_server as YS
 
 # use ptvsd to allow debuging QThreads
-import ptvsd
+# import ptvsd
 
 import cv2
 
@@ -333,7 +333,7 @@ class ProcessThreadClass(QtCore.QThread):
 
     def run(self):
         # make this thread debug-able
-        ptvsd.debug_this_thread()
+        # ptvsd.debug_this_thread()
 
         # take self variables to local variables just to make coding easy
         ui = self.ui_
@@ -385,7 +385,7 @@ def drawMainWindow():
     ui = Ui_MainWindowLogic(yolo)
     
     ui.setupUi(qtMainWindow)
-    qtMainWindow.setWindowTitle("Traffic Monitor 0.4.0")
+    qtMainWindow.setWindowTitle("Traffic Load Detection 0.4.0")
     qtMainWindow.show()
 
     yolo.loadData()
