@@ -32,7 +32,7 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
 ###################################################################################################
     def __init__(self, yoloServer):
         super().__init__()
-        self.activeViewIndex = 0
+        self.activeViewIndex = -1
         self.logLinesCount = 0
         self.yoloServer = yoloServer 
         self.recordingOn = False
@@ -65,6 +65,8 @@ class Ui_MainWindowLogic(GUI.Ui_MainWindow):
         self.sideViews = [self.lbl_sideView_0, self.lbl_sideView_1, self.lbl_sideView_2]
         self.progressBars = [self.progressBar_0, self.progressBar_1, self.progressBar_2]
         self.mdi_sideViews = [self.mdi_sideView_0, self.mdi_sideView_1, self.mdi_sideView_2]
+
+        self.setActiveView(0)
 ###################################################################################################
 
 ###################################################################################################
