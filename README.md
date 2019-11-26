@@ -1,5 +1,5 @@
 
-![](./arts/gasfadf.png "Ort Braude College")
+![](./arts/ort_braude_logo.png "Ort Braude College")
 
 # Traffic Load Detection
 
@@ -29,28 +29,32 @@ Run ./gui_main.py
 
 1. Main window layout with view to 3 live webcams
 
-![](./arts/00_View__With_Arrows.png "00")
+![](./arts/01_Overview__With_Arrows.png "01")
 
 ---
 
-2. Set "YOLO Objects" check box to see the detected cars
+2. Set "Identified Vehicles" check box to see the detected vehicles
 
-![](./arts/01_YOLO_Objects__With_Arrows.png "01")
+![](./arts/02_Check_Identified_Vehicles__With_Arrows.png "02")
 
 ---
 
-3. Set "Static Objects" check box to see high load areas
+3. Set "Local Loads" check box to see high load areas
 
-![](./arts/02_Traffic_Load__With_Arrows.png "02")
+![](./arts/03_Check_Local_Load__With_Arrows.png "03")
 
 ---
 
 4. See the green bar raise as the traffic load increase and the traffic load history graph updates
 
-![](./arts/03_Traffic_High_Load__With_Arrows.png "03")
+![](./arts/04_Traffic_High_Load__With_Arrows.png "04")
 
 ---
 
 5. You can record traffic sessions by pressing the "Start Record" button and reply them later.
+
+---
+
+6. See ./arts/Traffic-Load-Detection_Demo_h265.mp4 video
 
 ---

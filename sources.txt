@@ -8,9 +8,11 @@ all rest of the lines are ignored
 
 
 http://46.16.221.234:80/mjpg/video.mjpg, 2
-https://5c328052cb7f5.streamlock.net/live/KFRAKARA.stream/playlist.m3u8, 25
+https://5c328052cb7f5.streamlock.net/live/HASARGEL.stream/playlist.m3u8, 25
 https://5d8c50e7b358f.streamlock.net/live/OFAKIM.stream/playlist.m3u8, 25
-
+D:\YOLO\git\Traffic-Load-Detection\images\url_0_2019-11-25_12_19_57
+D:\YOLO\git\Traffic-Load-Detection\images\url_2_2019-11-25_12_56_15
+D:\YOLO\git\Traffic-Load-Detection\images\NearCamera_2019-11-16_21_05_35
 
 
 all links:

@@ -359,6 +359,7 @@ class ProcessThreadClass(QtCore.QThread):
                 trafficLoad.setImageDimensions(img0.shape)
 
                 trafficLoadValue = trafficLoad.processDetectionList(detectionList)
+                # trafficLoadValue = 10 + 20 * camIndex
                 self.updateTrafficLoadSignal.emit(camIndex, trafficLoadValue)
 
                 if ui.checkBox_drawGrid.isChecked() is True:
